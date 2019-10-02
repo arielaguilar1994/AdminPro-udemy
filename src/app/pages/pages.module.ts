@@ -13,6 +13,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { Graficas1Component } from './graficas1/graficas1.component';
 import { IncrementadorComponent } from '../components/incrementador/incrementador.component';
 import { GraficaComponent } from '../components/grafica/grafica.component';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
     declarations:[
@@ -21,7 +22,8 @@ import { GraficaComponent } from '../components/grafica/grafica.component';
         ProgressComponent,
         Graficas1Component,
         IncrementadorComponent,
-        GraficaComponent
+        GraficaComponent,
+        AccountSettingsComponent
     ],
     exports: [
         PagesComponent,
@@ -29,7 +31,8 @@ import { GraficaComponent } from '../components/grafica/grafica.component';
         ProgressComponent,
         Graficas1Component,
         IncrementadorComponent,
-        GraficaComponent
+        GraficaComponent,
+        AccountSettingsComponent
     ],
     imports: [
         SharedModule,
