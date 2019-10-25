@@ -8,10 +8,13 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 
+import { LoginGuardGuard } from '../services/guards/login-guard.guard';
+
 const APP_ROUTES_PAGE: Routes = [
     { 
         path:'', 
         component: PagesComponent,
+        canActivate: [LoginGuardGuard],
         children: [ //data es la propiedad sobre informacion de la ruta
             { path:'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' } },
             { path:'progress', component: ProgressComponent, data: { titulo: 'Barras de progreso'} },
