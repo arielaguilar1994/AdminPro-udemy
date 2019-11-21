@@ -9,8 +9,11 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { HospitalesComponent } from './hospitales/hospitales.component';
 
 import { LoginGuardGuard } from '../services/guards/login-guard.guard';
+import { MedicosComponent } from './medicos/medicos.component';
+import { MedicoComponent } from './medicos/medico.component';
 
 const APP_ROUTES_PAGE: Routes = [
     { 
@@ -27,8 +30,9 @@ const APP_ROUTES_PAGE: Routes = [
             { path:'perfil', component: ProfileComponent, data: { titulo: 'Perfil de usuario' } },
             //Mantenimientos
             { path:'usuarios', component: UsuariosComponent, data: { titulo: 'Mantenimiento de usuarios'} },
-            // { path:'medicos', component: , data: { titulo: 'Usuarios'} },
-            // { path:'usuarios', component: , data: { titulo: 'Usuarios'} },
+            { path:'hospitales', component: HospitalesComponent, data: { titulo: 'Mantenimiento de Hospitales'} },
+            { path:'medicos', component: MedicosComponent , data: { titulo: 'Mantenimiento de Medicos'} },
+            { path:'medico/:id', component: MedicoComponent, data: { titulo: 'Actualizar Medico'}},
             { path:'', redirectTo:'/dashboard', pathMatch:'full'},
         ]
     }

@@ -40,8 +40,8 @@ export class ModalUploadComponent implements OnInit {
 
   subirImagen(){
     this._archivoService.subirArchivo(this.imagenSubir, this._modalUploadService.tipo, this._modalUploadService.id)
-          .then( resp => {
-            swal('Imagen actualziada', 'Se modifico la imagen del usuario', 'success');
+          .then( (resp: any) => {
+            swal('Imagen actualziada', resp.mensaje, 'success');
             this._modalUploadService.notificacion.emit(resp);
             this.cerrarModal();
           })
