@@ -3,7 +3,7 @@ import { Usuario } from 'src/app/models/usuario.model';
 import { HttpClient } from '@angular/common/http';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import swal from 'sweetalert';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { SubirArchivoService } from '../subirArchivo/subir-archivo.service';
 
@@ -13,6 +13,8 @@ import { SubirArchivoService } from '../subirArchivo/subir-archivo.service';
 export class UsuarioService {
   usuario: Usuario;
   token: string;
+  menu: any[] = [];
+
   constructor(public http: HttpClient, public router: Router, public _subirArchivoService: SubirArchivoService) {
     this.cargarStorage()
   }
@@ -20,8 +22,10 @@ export class UsuarioService {
   logout(){
     this.usuario = null;
     this.token = '';
+    this.menu = [];
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+    localStorage.removeItem('menu');
     this.router.navigate(['/login']);
   }
 
@@ -30,7 +34,7 @@ export class UsuarioService {
     
     return this.http.post(url, { token: token}).pipe(
       map((resp: any) => {
-        this.guardarStorage(resp.id, resp.token, resp.usuario);
+        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         return true;
       })
     );
@@ -48,8 +52,7 @@ export class UsuarioService {
     return this.http.post(url, usuario)
     .pipe(
       map((resp:any)=>{
-        this.guardarStorage(resp.id, resp.token, resp.usuario);
-
+        this.guardarStorage(resp.id, resp.token, resp.usuario, resp.menu);
         return true;
       })
     );
@@ -73,7 +76,7 @@ export class UsuarioService {
     .pipe(
       map( (resp: any) => {
         if(usuario._id === this.usuario._id){
-          this.guardarStorage(resp.usuario._id, this.token, resp.usuario);
+          this.guardarStorage(resp.usuario._id, this.token, resp.usuario, this.menu);
         }
         
         swal('Usuario actualizado', usuario.nombre, 'success');
@@ -109,14 +112,16 @@ export class UsuarioService {
                 );
   }
 
-  guardarStorage(id: string, token: string, usuario: Usuario){
+  guardarStorage(id: string, token: string, usuario: Usuario, menu: any){
     localStorage.setItem('id', id);
     localStorage.setItem('token', token);
     localStorage.setItem('usuario', JSON.stringify(usuario));
+    localStorage.setItem('menu', JSON.stringify(menu));
 
     //esto es para validar que el usuario esta logueado para ver el resto de las paginas
     this.usuario = usuario;
     this.token = token;
+    this.menu = menu;
   }
 
   //funcion utilizada para el guard para ver si ve las paginas
@@ -129,9 +134,11 @@ export class UsuarioService {
     if(localStorage.getItem('token')){
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
+      this.menu = JSON.parse(localStorage.getItem('menu'));
     }else{
       this.token = '';
       this.usuario = null;
+      this.menu = null;
     }
   }
 
@@ -140,7 +147,7 @@ export class UsuarioService {
           .then( (resp: any) => {
             this.usuario.img = resp.usuario.img;
             swal('Imagen Actualizada', this.usuario.nombre, 'success');
-            this.guardarStorage(id, this.token, this.usuario);
+            this.guardarStorage(id, this.token, this.usuario, this.menu);
           })
           .catch(err => {
             console.log(err);

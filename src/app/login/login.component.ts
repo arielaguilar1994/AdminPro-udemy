@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { UsuarioService } from '../services/service.index';
 import { Usuario } from '../models/usuario.model';
-import { element } from 'protractor';
 
 declare function init_plugins();
 declare const gapi: any;
+declare var swal: any;
 
 @Component({
   selector: 'app-login',
@@ -65,7 +65,8 @@ export class LoginComponent implements OnInit {
     let usuario = new Usuario(null, forma.value.email, forma.value.password);
 
     this._usuarioService.login(usuario, forma.value.recuerdame)
-            .subscribe( () => this.router.navigate(['/dashboard']));
+            .subscribe( () => this.router.navigate(['/dashboard']), 
+                        err => swal('Error en login', err.error.mensaje, 'error'));
   }
 
 
