@@ -12,19 +12,19 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { HospitalesComponent } from './hospitales/hospitales.component';
 
 import { LoginGuardGuard } from '../services/guards/login-guard.guard';
-import { AdminGuard } from '../services/service.index';
+import { AdminGuard, VerificaTokenGuard } from '../services/service.index';
 
 import { MedicosComponent } from './medicos/medicos.component';
 import { MedicoComponent } from './medicos/medico.component';
 import { BusquedaComponent } from './busqueda/busqueda.component';
 
 const APP_ROUTES_PAGE: Routes = [
-    { 
-        path:'', 
-        component: PagesComponent,
-        canActivate: [LoginGuardGuard],
-        children: [ //data es la propiedad sobre informacion de la ruta
-            { path:'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' } },
+    //{ 
+        // path:'', 
+        // component: PagesComponent,
+        // canActivate: [LoginGuardGuard],
+        // children: [ //data es la propiedad sobre informacion de la ruta
+            { path:'dashboard', component: DashboardComponent, data: { titulo: 'Dashboard' }, canActivate: [VerificaTokenGuard] },
             { path:'progress', component: ProgressComponent, data: { titulo: 'Barras de progreso'} },
             { path:'graficas1', component: Graficas1Component, data: { titulo: 'Graficos' } },
             { path:'promesas', component: PromesasComponent, data: { titulo: 'Promesas' } },
@@ -38,8 +38,8 @@ const APP_ROUTES_PAGE: Routes = [
             { path:'medicos', component: MedicosComponent , data: { titulo: 'Mantenimiento de Medicos'} },
             { path:'medico/:id', component: MedicoComponent, data: { titulo: 'Actualizar Medico'}},
             { path:'', redirectTo:'/dashboard', pathMatch:'full'},
-        ]
-    }
+        //]
+    //}
 ];
 
 export const APP_ROUTING_PAGE = RouterModule.forChild(APP_ROUTES_PAGE);
